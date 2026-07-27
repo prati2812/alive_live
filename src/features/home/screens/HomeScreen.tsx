@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Bell, ShoppingBag } from 'lucide-react-native';
+import { Bell, ShoppingBag, Search } from 'lucide-react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { LiveCard } from '../components/LiveCard';
 import { CountryTabs } from '../components/CountryTabs';
@@ -82,6 +82,11 @@ export const HomeScreen = () => {
 
       {/* Right side icons */}
       <View style={styles.headerRight}>
+        {/* Search icon */}
+        <TouchableOpacity style={styles.iconCircle}>
+          <Search size={20} color="#555" />
+        </TouchableOpacity>
+
         {/* Bell + badge */}
         <TouchableOpacity style={styles.iconCircle}>
           <Bell size={20} color="#555" />
