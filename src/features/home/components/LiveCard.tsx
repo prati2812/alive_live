@@ -1,0 +1,122 @@
+import React from 'react';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import { Eye } from 'lucide-react-native';
+
+interface LiveCardProps {
+  name: string;
+  viewers: string;
+  imageUri: string;
+  flag?: string;
+}
+
+export const LiveCard = ({ name, viewers, imageUri, flag = '🇵🇭' }: LiveCardProps) => {
+  return (
+    <View style={styles.cardContainer}>
+      <ImageBackground
+        source={{ uri: imageUri }}
+        style={styles.imageBackground}
+        imageStyle={styles.image}
+      >
+        {/* Top: viewer count badge */}
+        <View style={styles.topSection}>
+          <View style={styles.viewerBadge}>
+            <Eye size={11} color="#fff" style={styles.eyeIcon} />
+            <Text style={styles.viewerText}>{viewers}</Text>
+          </View>
+        </View>
+
+        {/* Bottom: avatar + name + flag + follow button */}
+        <View style={styles.bottomSection}>
+          <View style={styles.avatarCircle} />
+          <View style={styles.nameContainer}>
+            <Text style={styles.nameText}>{name}</Text>
+            <Text style={styles.flagText}>{flag}</Text>
+          </View>
+          <TouchableOpacity style={styles.followButton}>
+            <Text style={styles.followButtonText}>+ Follow</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  cardContainer: {
+    flex: 1,
+    height: 230,
+    margin: 6,
+    borderRadius: 16,
+    overflow: 'hidden',
+    backgroundColor: '#333',
+  },
+  imageBackground: {
+    flex: 1,
+    justifyContent: 'space-between',
+    padding: 10,
+  },
+  image: {
+    borderRadius: 16,
+  },
+  topSection: {
+    alignItems: 'flex-start',
+  },
+  viewerBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: 10,
+  },
+  eyeIcon: {
+    marginRight: 3,
+  },
+  viewerText: {
+    color: '#fff',
+    fontSize: 11,
+    fontWeight: '600',
+  },
+  bottomSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatarCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    marginRight: 6,
+    flexShrink: 0,
+  },
+  nameContainer: {
+    flex: 1,
+    marginRight: 4,
+  },
+  nameText: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: 'bold',
+    textShadowColor: 'rgba(0,0,0,0.8)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 4,
+  },
+  flagText: {
+    fontSize: 11,
+    marginTop: 1,
+  },
+  followButton: {
+    backgroundColor: '#FFE600',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 14,
+    flexShrink: 0,
+  },
+  followButtonText: {
+    color: '#000',
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
+});

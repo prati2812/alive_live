@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "358085105814",
+    "project_id": "alive-fb6af",
+    "storage_bucket": "alive-fb6af.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358085105814:android:61b982f4b3f4c5ab8acab7",
+        "android_client_info": {
+          "package_name": "com.alive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358085105814-db9miht9rf0vr7pv8ipqlslqu2ur9bul.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alive",
+            "certificate_hash": "9a9613298cf5a074c14ee68eddf96117117d79a4"
+          }
+        },
+        {
+          "client_id": "358085105814-4633h8qpi76nhk8df8m8esp5jia2c7pb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtyrui9dL3d_bY0ZjdoEfJRbpkntKRR88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358085105814-4633h8qpi76nhk8df8m8esp5jia2c7pb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
