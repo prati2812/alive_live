@@ -16,6 +16,8 @@ import { Bell, ShoppingBag, Search, X, Heart, Eye, Flame, Play } from 'lucide-re
 import LinearGradient from 'react-native-linear-gradient';
 import { LiveCard } from '../components/LiveCard';
 import { CountryTabs } from '../components/CountryTabs';
+import { colors } from '../../../core/theme/colors';
+import { strings } from '../../../core/theme/strings';
 
 // ── 20 unique streamers with avatar URLs ───────────────────────
 const MOCK_DATA = [
@@ -119,7 +121,7 @@ export const HomeScreen = () => {
       {isSearching ? (
         <View style={styles.searchBarContainer}>
           <TextInput
-            placeholder="Search streamer..."
+            placeholder={strings.home.searchPlaceholder}
             value={searchQuery}
             onChangeText={setSearchQuery}
             autoFocus
@@ -172,16 +174,16 @@ export const HomeScreen = () => {
 
   const renderTabs = () => (
     <View style={styles.tabsContainer}>
-      {['Stream', 'Hot', 'Follow'].map((tab) => (
+      {[strings.home.tabs.stream, strings.home.tabs.hot, strings.home.tabs.follow].map((tab) => (
         <TouchableOpacity
           key={tab}
-          onPress={() => setActiveTab(tab)}
+          onPress={() => setActiveTab(tab === strings.home.tabs.stream ? 'Stream' : tab === strings.home.tabs.hot ? 'Hot' : 'Follow')}
           style={styles.tabItem}
         >
-          <Text style={[styles.mainTabText, activeTab === tab && styles.mainTabTextActive]}>
+          <Text style={[styles.mainTabText, (activeTab === 'Stream' && tab === strings.home.tabs.stream) || (activeTab === 'Hot' && tab === strings.home.tabs.hot) || (activeTab === 'Follow' && tab === strings.home.tabs.follow) ? styles.mainTabTextActive : null]}>
             {tab}
           </Text>
-          {activeTab === tab && <View style={styles.tabUnderline} />}
+          {((activeTab === 'Stream' && tab === strings.home.tabs.stream) || (activeTab === 'Hot' && tab === strings.home.tabs.hot) || (activeTab === 'Follow' && tab === strings.home.tabs.follow)) && <View style={styles.tabUnderline} />}
         </TouchableOpacity>
       ))}
     </View>
@@ -195,7 +197,7 @@ export const HomeScreen = () => {
       <View style={styles.carouselContainer}>
         <View style={styles.carouselHeader}>
           <Flame size={18} color="#FF5722" fill="#FF5722" style={{ marginRight: 6 }} />
-          <Text style={styles.carouselTitle}>Top Live Creators</Text>
+          <Text style={styles.carouselTitle}>{strings.home.carouselTitle}</Text>
         </View>
         <ScrollView
           horizontal
@@ -223,7 +225,7 @@ export const HomeScreen = () => {
                       <Text style={styles.rankText}>#{index + 1}</Text>
                     </View>
                     <View style={styles.carouselLiveBadge}>
-                      <Eye size={12} color="#fff" style={{ marginRight: 4 }} />
+                      <Eye size={12} color={colors.white} style={{ marginRight: 4 }} />
                       <Text style={styles.carouselLiveText}>{item.viewers}</Text>
                     </View>
                   </View>
@@ -232,7 +234,7 @@ export const HomeScreen = () => {
                     <Image source={{ uri: item.avatarUri }} style={styles.carouselAvatar} />
                     <View>
                       <Text style={styles.carouselName} numberOfLines={1}>{item.name} {item.flag}</Text>
-                      <Text style={styles.carouselStatus}>Trending Live</Text>
+                      <Text style={styles.carouselStatus}>{strings.home.trendingStatus}</Text>
                     </View>
                   </View>
                 </LinearGradient>
@@ -305,7 +307,7 @@ export const HomeScreen = () => {
                 </TouchableOpacity>
                 <View style={styles.modalLiveBadge}>
                   <View style={styles.modalLiveDot} />
-                  <Text style={styles.modalLiveText}>LIVE</Text>
+                  <Text style={styles.modalLiveText}>{strings.modal.live}</Text>
                 </View>
               </View>
 
@@ -325,7 +327,7 @@ export const HomeScreen = () => {
                       <View style={styles.modalViewersRow}>
                         <Eye size={14} color="#aaa" style={{ marginRight: 4 }} />
                         <Text style={styles.modalViewersText}>
-                          {selectedCreator.viewers} watching now
+                          {selectedCreator.viewers} {strings.modal.watching}
                         </Text>
                       </View>
                     </View>
@@ -335,7 +337,7 @@ export const HomeScreen = () => {
                   <View style={styles.hotMeterContainer}>
                     <View style={styles.hotMeterRow}>
                       <Flame size={16} color="#FF9800" fill="#FF9800" style={{ marginRight: 4 }} />
-                      <Text style={styles.hotMeterTitle}>Trending Meter</Text>
+                      <Text style={styles.hotMeterTitle}>{strings.modal.trendingMeter}</Text>
                     </View>
                     <View style={styles.hotProgressBg}>
                       <LinearGradient
@@ -348,7 +350,7 @@ export const HomeScreen = () => {
                   </View>
 
                   <Text style={styles.modalBio}>
-                    Streaming live! Welcome to the channel. Feel free to join, interact, and show your support!
+                    {strings.modal.bio}
                   </Text>
 
                   {/* Follow button inside modal */}
@@ -371,7 +373,7 @@ export const HomeScreen = () => {
                         followedIds.includes(selectedCreator.id) && styles.modalFollowingButtonText,
                       ]}
                     >
-                      {followedIds.includes(selectedCreator.id) ? 'Following' : 'Follow Creator'}
+                      {followedIds.includes(selectedCreator.id) ? strings.modal.following : strings.modal.followCreator}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -387,7 +389,7 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background,
   },
   /* ── Header ── */
   header: {
@@ -417,7 +419,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: colors.grayBackground,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -425,7 +427,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 4,
     right: 4,
-    backgroundColor: '#ff3b30',
+    backgroundColor: colors.error,
     borderRadius: 7,
     minWidth: 14,
     height: 14,
@@ -450,7 +452,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f2f2f2',
+    backgroundColor: colors.grayBackground,
     borderRadius: 20,
     paddingHorizontal: 16,
     height: 40,
@@ -477,20 +479,20 @@ const styles = StyleSheet.create({
     color: '#aaa',
   },
   mainTabTextActive: {
-    color: '#6cc000',
+    color: colors.primary,
     fontWeight: '800',
   },
   tabUnderline: {
     marginTop: 3,
     height: 2.5,
     width: '80%',
-    backgroundColor: '#6cc000',
+    backgroundColor: colors.primary,
     borderRadius: 2,
   },
   /* ── Hot Section Carousel ── */
   carouselContainer: {
     paddingVertical: 10,
-    backgroundColor: '#fff',
+    backgroundColor: colors.background,
   },
   carouselHeader: {
     flexDirection: 'row',

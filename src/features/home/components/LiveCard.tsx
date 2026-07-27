@@ -25,14 +25,21 @@ export const LiveCard = ({
   onPress,
 }: LiveCardProps) => {
   return (
-    <TouchableOpacity style={styles.cardContainer} onPress={onPress} activeOpacity={0.9}>
+    <View style={styles.cardContainer}>
       <ImageBackground
         source={{ uri: imageUri }}
         style={styles.imageBackground}
         imageStyle={styles.image}
       >
+        {/* Background Click Overlay */}
+        <TouchableOpacity
+          style={StyleSheet.absoluteFillObject}
+          onPress={onPress}
+          activeOpacity={0.9}
+        />
+
         {/* Top: viewer count badge */}
-        <View style={styles.topSection}>
+        <View style={styles.topSection} pointerEvents="none">
           <View style={styles.viewerBadge}>
             <Eye size={11} color="#fff" style={styles.eyeIcon} />
             <Text style={styles.viewerText}>{viewers}</Text>
@@ -41,14 +48,16 @@ export const LiveCard = ({
 
         {/* Bottom: avatar + name + flag + follow button */}
         <View style={styles.bottomSection}>
-          {avatarUri ? (
-            <Image source={{ uri: avatarUri }} style={styles.avatarImage} />
-          ) : (
-            <View style={styles.avatarCircle} />
-          )}
-          <View style={styles.nameContainer}>
-            <Text style={styles.nameText} numberOfLines={1}>{name}</Text>
-            <Text style={styles.flagText}>{flag}</Text>
+          <View style={styles.metaRow} pointerEvents="none">
+            {avatarUri ? (
+              <Image source={{ uri: avatarUri }} style={styles.avatarImage} />
+            ) : (
+              <View style={styles.avatarCircle} />
+            )}
+            <View style={styles.nameContainer}>
+              <Text style={styles.nameText} numberOfLines={1}>{name}</Text>
+              <Text style={styles.flagText}>{flag}</Text>
+            </View>
           </View>
           <TouchableOpacity
             style={[styles.followButton, isFollowing && styles.followingButton]}
@@ -61,7 +70,7 @@ export const LiveCard = ({
           </TouchableOpacity>
         </View>
       </ImageBackground>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -104,6 +113,13 @@ const styles = StyleSheet.create({
   bottomSection: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  metaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    marginRight: 6,
   },
   avatarCircle: {
     width: 28,
@@ -126,7 +142,6 @@ const styles = StyleSheet.create({
   },
   nameContainer: {
     flex: 1,
-    marginRight: 4,
   },
   nameText: {
     color: '#fff',
@@ -148,6 +163,7 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     minWidth: 62,
     alignItems: 'center',
+    zIndex: 10,
   },
   followingButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.25)',
