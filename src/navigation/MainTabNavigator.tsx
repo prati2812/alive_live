@@ -11,10 +11,12 @@ import Svg, { Path } from 'react-native-svg';
 import { Home, Sparkles, User } from 'lucide-react-native';
 import { HomeScreen } from '../features/home/screens/HomeScreen';
 import { ProfileScreen } from '../features/profile/screens/ProfileScreen';
+import { colors } from '../core/theme/colors';
+import { strings } from '../core/theme/strings';
 
 const PlaceholderScreen = ({ name }: { name: string }) => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
-    <Text style={{ fontSize: 18, color: '#555' }}>{name} Screen</Text>
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
+    <Text style={{ fontSize: 18, color: colors.textSecondary }}>{name} Screen</Text>
   </View>
 );
 
@@ -23,14 +25,14 @@ const ChatIcon = ({ focused }: { focused: boolean }) => (
   <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
     <Path
       d="M22 2L11 13"
-      stroke="#fff"
+      stroke={colors.white}
       strokeWidth={focused ? 2.5 : 1.8}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <Path
       d="M22 2L15 22L11 13L2 9L22 2Z"
-      stroke="#fff"
+      stroke={colors.white}
       strokeWidth={focused ? 2.5 : 1.8}
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -41,11 +43,11 @@ const ChatIcon = ({ focused }: { focused: boolean }) => (
 // ── Radio-wave icon for Go Live circle ──
 const RadioIcon = () => (
   <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-    <Path d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" fill="#444" />
-    <Path d="M8.5 8.5a4.9 4.9 0 0 0 0 7" stroke="#444" strokeWidth={1.8} strokeLinecap="round" />
-    <Path d="M15.5 8.5a4.9 4.9 0 0 1 0 7" stroke="#444" strokeWidth={1.8} strokeLinecap="round" />
-    <Path d="M5.5 5.5a9.5 9.5 0 0 0 0 13" stroke="#444" strokeWidth={1.5} strokeLinecap="round" />
-    <Path d="M18.5 5.5a9.5 9.5 0 0 1 0 13" stroke="#444" strokeWidth={1.5} strokeLinecap="round" />
+    <Path d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" fill={colors.black} />
+    <Path d="M8.5 8.5a4.9 4.9 0 0 0 0 7" stroke={colors.black} strokeWidth={1.8} strokeLinecap="round" />
+    <Path d="M15.5 8.5a4.9 4.9 0 0 1 0 7" stroke={colors.black} strokeWidth={1.8} strokeLinecap="round" />
+    <Path d="M5.5 5.5a9.5 9.5 0 0 0 0 13" stroke={colors.black} strokeWidth={1.5} strokeLinecap="round" />
+    <Path d="M18.5 5.5a9.5 9.5 0 0 1 0 13" stroke={colors.black} strokeWidth={1.5} strokeLinecap="round" />
   </Svg>
 );
 
@@ -53,13 +55,13 @@ const RadioIcon = () => (
 const getTabIcon = (routeName: string, focused: boolean) => {
   switch (routeName) {
     case 'Home':
-      return <Home size={22} color="#fff" fill={focused ? '#fff' : 'transparent'} />;
+      return <Home size={22} color={colors.white} fill={focused ? colors.white : 'transparent'} />;
     case 'Party':
-      return <Sparkles size={22} color="#fff" fill={focused ? '#fff' : 'transparent'} />;
+      return <Sparkles size={22} color={colors.white} fill={focused ? colors.white : 'transparent'} />;
     case 'Chats':
       return <ChatIcon focused={focused} />;
     case 'Profile':
-      return <User size={22} color="#fff" fill={focused ? '#fff' : 'transparent'} />;
+      return <User size={22} color={colors.white} fill={focused ? colors.white : 'transparent'} />;
     default:
       return null;
   }
@@ -71,7 +73,7 @@ export const MainTabNavigator = () => {
       type="DOWN"
       height={60}
       circleWidth={50}
-      bgColor="#2db832"
+      bgColor={colors.primary}
       borderTopLeftRight={true}
       initialRouteName="Home"
       screenOptions={{ headerShown: false }}
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   shadow: {
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
@@ -138,16 +140,16 @@ const styles = StyleSheet.create({
   },
   tabLabelActive: {
     fontWeight: '800',
-    color: '#fff',
+    color: colors.white,
   },
   goLiveCircle: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.18,
     shadowRadius: 6,
