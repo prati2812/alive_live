@@ -1,17 +1,31 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { Eye } from 'lucide-react-native';
 
 interface LiveCardProps {
+  id: string;
   name: string;
   viewers: string;
   imageUri: string;
+  avatarUri: string;
   flag?: string;
+  isFollowing: boolean;
+  onFollowToggle: () => void;
+  onPress: () => void;
 }
 
-export const LiveCard = ({ name, viewers, imageUri, flag = '🇵🇭' }: LiveCardProps) => {
+export const LiveCard = ({
+  name,
+  viewers,
+  imageUri,
+  avatarUri,
+  flag = '🇵🇭',
+  isFollowing,
+  onFollowToggle,
+  onPress,
+}: LiveCardProps) => {
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity style={styles.cardContainer} onPress={onPress} activeOpacity={0.95}>
       <ImageBackground
         source={{ uri: imageUri }}
         style={styles.imageBackground}
@@ -27,17 +41,30 @@ export const LiveCard = ({ name, viewers, imageUri, flag = '🇵🇭' }: LiveCar
 
         {/* Bottom: avatar + name + flag + follow button */}
         <View style={styles.bottomSection}>
-          <View style={styles.avatarCircle} />
+          {avatarUri ? (
+            <Image source={{ uri: avatarUri }} style={styles.avatarImage} />
+          ) : (
+            <View style={styles.avatarCircle} />
+          )}
           <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>{name}</Text>
+            <Text style={styles.nameText} numberOfLines={1}>{name}</Text>
             <Text style={styles.flagText}>{flag}</Text>
           </View>
-          <TouchableOpacity style={styles.followButton}>
-            <Text style={styles.followButtonText}>+ Follow</Text>
+          <TouchableOpacity
+            style={[styles.followButton, isFollowing && styles.followingButton]}
+            onPress={(e) => {
+              e.stopPropagation(); // prevent modal opening when clicking follow button
+              onFollowToggle();
+            }}
+            activeOpacity={0.8}
+          >
+            <Text style={[styles.followButtonText, isFollowing && styles.followingButtonText]}>
+              {isFollowing ? 'Following' : '+ Follow'}
+            </Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -91,6 +118,15 @@ const styles = StyleSheet.create({
     marginRight: 6,
     flexShrink: 0,
   },
+  avatarImage: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.8)',
+    marginRight: 6,
+    flexShrink: 0,
+  },
   nameContainer: {
     flex: 1,
     marginRight: 4,
@@ -109,14 +145,22 @@ const styles = StyleSheet.create({
   },
   followButton: {
     backgroundColor: '#FFE600',
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
     paddingVertical: 5,
     borderRadius: 14,
     flexShrink: 0,
+    minWidth: 62,
+    alignItems: 'center',
+  },
+  followingButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
   },
   followButtonText: {
     color: '#000',
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: 'bold',
+  },
+  followingButtonText: {
+    color: '#fff',
   },
 });
