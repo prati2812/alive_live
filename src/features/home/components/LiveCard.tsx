@@ -25,7 +25,7 @@ export const LiveCard = ({
   onPress,
 }: LiveCardProps) => {
   return (
-    <TouchableOpacity style={styles.cardContainer} onPress={onPress} activeOpacity={0.95}>
+    <TouchableOpacity style={styles.cardContainer} onPress={onPress} activeOpacity={0.9}>
       <ImageBackground
         source={{ uri: imageUri }}
         style={styles.imageBackground}
@@ -52,10 +52,7 @@ export const LiveCard = ({
           </View>
           <TouchableOpacity
             style={[styles.followButton, isFollowing && styles.followingButton]}
-            onPress={(e) => {
-              e.stopPropagation(); // prevent modal opening when clicking follow button
-              onFollowToggle();
-            }}
+            onPress={onFollowToggle}
             activeOpacity={0.8}
           >
             <Text style={[styles.followButtonText, isFollowing && styles.followingButtonText]}>

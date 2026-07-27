@@ -10,6 +10,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Svg, { Path } from 'react-native-svg';
 import { Home, Sparkles, User } from 'lucide-react-native';
 import { HomeScreen } from '../features/home/screens/HomeScreen';
+import { ProfileScreen } from '../features/profile/screens/ProfileScreen';
 
 const PlaceholderScreen = ({ name }: { name: string }) => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
@@ -106,7 +107,7 @@ export const MainTabNavigator = () => {
       <CurvedBottomBar.Screen name="Home" position="LEFT" component={HomeScreen} />
       <CurvedBottomBar.Screen name="Party" position="LEFT" component={() => <PlaceholderScreen name="Party" />} />
       <CurvedBottomBar.Screen name="Chats" position="RIGHT" component={() => <PlaceholderScreen name="Chats" />} />
-      <CurvedBottomBar.Screen name="Profile" position="RIGHT" component={() => <PlaceholderScreen name="Profile" />} />
+      <CurvedBottomBar.Screen name="Profile" position="RIGHT" component={ProfileScreen} />
     </CurvedBottomBar.Navigator>
   );
 };

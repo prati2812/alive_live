@@ -8,9 +8,11 @@ import {
   Image,
   TextInput,
   Modal,
+  ImageBackground,
+  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Bell, ShoppingBag, Search, X, Heart, Eye } from 'lucide-react-native';
+import { Bell, ShoppingBag, Search, X, Heart, Eye, Flame, Play } from 'lucide-react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { LiveCard } from '../components/LiveCard';
 import { CountryTabs } from '../components/CountryTabs';
@@ -54,6 +56,13 @@ const COUNTRY_TABS = [
   { id: 'colombia',    label: 'Colombia',     flag: '🇨🇴' },
 ];
 
+// Helper to parse views format "12K", "8.2K", "950" to float representation
+const parseViewersVal = (vStr: string): number => {
+  const clean = vStr.toUpperCase().replace('K', '');
+  const num = parseFloat(clean);
+  return vStr.toUpperCase().includes('K') ? num * 1000 : num;
+};
+
 export const HomeScreen = () => {
   const [activeCountry, setActiveCountry] = useState('global');
   const [activeTab, setActiveTab] = useState('Stream');
@@ -69,13 +78,18 @@ export const HomeScreen = () => {
     );
   };
 
-  // Filter mock data dynamically
+  // Filter and sort mock data dynamically
   const filteredData = useMemo(() => {
-    let data = MOCK_DATA;
+    let data = [...MOCK_DATA];
 
     // Filter by Top Navigation tabs: "Follow" only displays followed creators
     if (activeTab === 'Follow') {
       data = data.filter((s) => followedIds.includes(s.id));
+    }
+
+    // Sort by viewer count if "Hot" tab is active (highest first)
+    if (activeTab === 'Hot') {
+      data.sort((a, b) => parseViewersVal(b.viewers) - parseViewersVal(a.viewers));
     }
 
     // Filter by active country tabs
@@ -92,6 +106,13 @@ export const HomeScreen = () => {
 
     return data;
   }, [activeTab, activeCountry, searchQuery, followedIds]);
+
+  // Extract Top 3 Trending/Hot Streamers for the Hero Carousel (used in Hot section)
+  const topTrending = useMemo(() => {
+    return [...MOCK_DATA]
+      .sort((a, b) => parseViewersVal(b.viewers) - parseViewersVal(a.viewers))
+      .slice(0, 3);
+  }, []);
 
   const renderHeader = () => (
     <View style={styles.header}>
@@ -166,16 +187,80 @@ export const HomeScreen = () => {
     </View>
   );
 
+  // Impressive Horizontal Swipe Carousel rendered at the top of Hot Tab
+  const renderTrendingCarousel = () => {
+    if (activeTab !== 'Hot') return null;
+
+    return (
+      <View style={styles.carouselContainer}>
+        <View style={styles.carouselHeader}>
+          <Flame size={18} color="#FF5722" fill="#FF5722" style={{ marginRight: 6 }} />
+          <Text style={styles.carouselTitle}>Top Live Creators</Text>
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.carouselScroll}
+        >
+          {topTrending.map((item, index) => (
+            <TouchableOpacity
+              key={item.id}
+              style={styles.carouselCard}
+              onPress={() => setSelectedCreator(item)}
+              activeOpacity={0.9}
+            >
+              <ImageBackground
+                source={{ uri: item.imageUri }}
+                style={styles.carouselCardBg}
+                imageStyle={{ borderRadius: 16 }}
+              >
+                <LinearGradient
+                  colors={['rgba(0,0,0,0.2)', 'rgba(0,0,0,0.85)']}
+                  style={styles.carouselOverlay}
+                >
+                  <View style={styles.carouselCardTop}>
+                    <View style={styles.rankBadge}>
+                      <Text style={styles.rankText}>#{index + 1}</Text>
+                    </View>
+                    <View style={styles.carouselLiveBadge}>
+                      <Eye size={12} color="#fff" style={{ marginRight: 4 }} />
+                      <Text style={styles.carouselLiveText}>{item.viewers}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.carouselCardBottom}>
+                    <Image source={{ uri: item.avatarUri }} style={styles.carouselAvatar} />
+                    <View>
+                      <Text style={styles.carouselName} numberOfLines={1}>{item.name} {item.flag}</Text>
+                      <Text style={styles.carouselStatus}>Trending Live</Text>
+                    </View>
+                  </View>
+                </LinearGradient>
+              </ImageBackground>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       {renderHeader()}
       {renderTabs()}
-      <CountryTabs
-        tabs={COUNTRY_TABS}
-        activeTab={activeCountry}
-        onTabChange={setActiveCountry}
-      />
+      
+      {/* Scrollable list containing both the carousel and the grid */}
       <FlatList
+        ListHeaderComponent={
+          <>
+            {renderTrendingCarousel()}
+            <CountryTabs
+              tabs={COUNTRY_TABS}
+              activeTab={activeCountry}
+              onTabChange={setActiveCountry}
+            />
+          </>
+        }
         data={filteredData}
         numColumns={2}
         keyExtractor={(item) => item.id}
@@ -243,6 +328,22 @@ export const HomeScreen = () => {
                           {selectedCreator.viewers} watching now
                         </Text>
                       </View>
+                    </View>
+                  </View>
+
+                  {/* Hotness Meter shown on Detail Modals to show extra premium styling */}
+                  <View style={styles.hotMeterContainer}>
+                    <View style={styles.hotMeterRow}>
+                      <Flame size={16} color="#FF9800" fill="#FF9800" style={{ marginRight: 4 }} />
+                      <Text style={styles.hotMeterTitle}>Trending Meter</Text>
+                    </View>
+                    <View style={styles.hotProgressBg}>
+                      <LinearGradient
+                        colors={['#FF9800', '#F44336']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={[styles.hotProgressFill, { width: `${Math.min(100, Math.floor(parseViewersVal(selectedCreator.viewers) / 120))}%` }]}
+                      />
                     </View>
                   </View>
 
@@ -386,6 +487,97 @@ const styles = StyleSheet.create({
     backgroundColor: '#6cc000',
     borderRadius: 2,
   },
+  /* ── Hot Section Carousel ── */
+  carouselContainer: {
+    paddingVertical: 10,
+    backgroundColor: '#fff',
+  },
+  carouselHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 14,
+    marginBottom: 8,
+  },
+  carouselTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#333',
+  },
+  carouselScroll: {
+    paddingHorizontal: 14,
+    gap: 12,
+  },
+  carouselCard: {
+    width: 160,
+    height: 180,
+    borderRadius: 16,
+    overflow: 'hidden',
+    backgroundColor: '#333',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  carouselCardBg: {
+    flex: 1,
+  },
+  carouselOverlay: {
+    flex: 1,
+    justifyContent: 'space-between',
+    padding: 10,
+  },
+  carouselCardTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  rankBadge: {
+    backgroundColor: '#FF5722',
+    borderRadius: 8,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  rankText: {
+    color: '#fff',
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+  carouselLiveBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 8,
+  },
+  carouselLiveText: {
+    color: '#fff',
+    fontSize: 9,
+    fontWeight: 'bold',
+  },
+  carouselCardBottom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  carouselAvatar: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    marginRight: 6,
+    borderWidth: 1,
+    borderColor: '#FF5722',
+  },
+  carouselName: {
+    color: '#fff',
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
+  carouselStatus: {
+    color: '#FFcc80',
+    fontSize: 9,
+    fontWeight: '600',
+  },
   /* ── Grid ── */
   listContent: {
     paddingHorizontal: 6,
@@ -440,11 +632,11 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     paddingHorizontal: 20,
-    paddingTop: 80,
+    paddingTop: 60,
     paddingBottom: 40,
   },
   modalContent: {
-    gap: 16,
+    gap: 14,
   },
   modalCreatorRow: {
     flexDirection: 'row',
@@ -474,6 +666,32 @@ const styles = StyleSheet.create({
   modalViewersText: {
     color: '#ccc',
     fontSize: 12,
+  },
+  hotMeterContainer: {
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderRadius: 12,
+    padding: 10,
+    marginTop: 4,
+  },
+  hotMeterRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  hotMeterTitle: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  hotProgressBg: {
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    overflow: 'hidden',
+  },
+  hotProgressFill: {
+    height: '100%',
+    borderRadius: 3,
   },
   modalBio: {
     color: '#eee',
