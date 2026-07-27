@@ -18,45 +18,7 @@ import { LiveCard } from '../components/LiveCard';
 import { CountryTabs } from '../components/CountryTabs';
 import { colors } from '../../../core/theme/colors';
 import { strings } from '../../../core/theme/strings';
-
-// ── 20 unique streamers with avatar URLs ───────────────────────
-const MOCK_DATA = [
-  { id: '1',  name: 'Sofia Chen',    viewers: '8.2K', flag: '🇵🇭', country: 'philippines', imageUri: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&q=80' },
-  { id: '2',  name: 'Mia Nakamura', viewers: '5.1K', flag: '🇯🇵', country: 'japan',        imageUri: 'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&fit=crop&q=80' },
-  { id: '3',  name: 'Priya Sharma', viewers: '12K',  flag: '🇮🇳', country: 'india',        imageUri: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&q=80' },
-  { id: '4',  name: 'Emily Rose',   viewers: '3.4K', flag: '🇺🇸', country: 'usa',          imageUri: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&q=80' },
-  { id: '5',  name: 'Aisha Diallo', viewers: '7.8K', flag: '🇧🇷', country: 'brazil',       imageUri: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&h=100&fit=crop&q=80' },
-  { id: '6',  name: 'Luna Park',    viewers: '9.0K', flag: '🇰🇷', country: 'korea',        imageUri: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&q=80' },
-  { id: '7',  name: 'Camila Reyes', viewers: '4.5K', flag: '🇲🇽', country: 'mexico',       imageUri: 'https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&q=80' },
-  { id: '8',  name: 'Anna Müller',  viewers: '6.3K', flag: '🇩🇪', country: 'germany',      imageUri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&q=80' },
-  { id: '9',  name: 'Yuna Kim',     viewers: '11K',  flag: '🇰🇷', country: 'korea',        imageUri: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&h=100&fit=crop&q=80' },
-  { id: '10', name: 'Sara Ali',     viewers: '2.9K', flag: '🇵🇰', country: 'india',        imageUri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&q=80' },
-  { id: '11', name: 'Mei Lin',      viewers: '15K',  flag: '🇨🇳', country: 'china',        imageUri: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=100&h=100&fit=crop&q=80' },
-  { id: '12', name: 'Fatima Noor',  viewers: '3.1K', flag: '🇸🇦', country: 'global',       imageUri: 'https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=100&h=100&fit=crop&q=80' },
-  { id: '13', name: 'Lena Popov',   viewers: '8.7K', flag: '🇷🇺', country: 'russia',       imageUri: 'https://images.unsplash.com/photo-1517365830460-955ce3be0547?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1517365830460-955ce3be0547?w=100&h=100&fit=crop&q=80' },
-  { id: '14', name: 'Bea Santos',   viewers: '6.6K', flag: '🇵🇭', country: 'philippines',  imageUri: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&q=80' },
-  { id: '15', name: 'Nina Torres',  viewers: '4.2K', flag: '🇨🇴', country: 'colombia',     imageUri: 'https://images.unsplash.com/photo-1516726817505-f5ed825624d8?w=400&q=80', avatarUri: 'https://images.unsplash.com/photo-1516726817505-f5ed825624d8?w=100&h=100&fit=crop&q=80' },
-  { id: '16', name: 'Grace Osei',   viewers: '5.5K', flag: '🇬🇭', country: 'global',       imageUri: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&q=80', avatarUri: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&h=100&fit=crop&q=80' },
-  { id: '17', name: 'Hana Suzuki',  viewers: '7.2K', flag: '🇯🇵', country: 'japan',        imageUri: 'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=800&q=80', avatarUri: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&fit=crop&q=80' },
-  { id: '18', name: 'Rina Patel',   viewers: '9.8K', flag: '🇮🇳', country: 'india',        imageUri: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80', avatarUri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&q=80' },
-  { id: '19', name: 'Dani Brooks',  viewers: '1.9K', flag: '🇬🇧', country: 'global',       imageUri: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80', avatarUri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&q=80' },
-  { id: '20', name: 'Yara Silva',   viewers: '13K',  flag: '🇧🇷', country: 'brazil',       imageUri: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80', avatarUri: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&h=100&fit=crop&q=80' },
-];
-
-const COUNTRY_TABS = [
-  { id: 'global',      label: 'Global',       flag: '🌐' },
-  { id: 'india',       label: 'India',        flag: '🇮🇳' },
-  { id: 'philippines', label: 'Philippines',  flag: '🇵🇭' },
-  { id: 'brazil',      label: 'Brazil',       flag: '🇧🇷' },
-  { id: 'usa',         label: 'USA',          flag: '🇺🇸' },
-  { id: 'korea',       label: 'Korea',        flag: '🇰🇷' },
-  { id: 'japan',       label: 'Japan',        flag: '🇯🇵' },
-  { id: 'mexico',      label: 'Mexico',       flag: '🇲🇽' },
-  { id: 'germany',     label: 'Germany',      flag: '🇩🇪' },
-  { id: 'china',       label: 'China',        flag: '🇨🇳' },
-  { id: 'russia',      label: 'Russia',       flag: '🇷🇺' },
-  { id: 'colombia',    label: 'Colombia',     flag: '🇨🇴' },
-];
+import { MOCK_DATA, COUNTRY_TABS } from '../data/mockData';
 
 // Helper to parse views format "12K", "8.2K", "950" to float representation
 const parseViewersVal = (vStr: string): number => {
