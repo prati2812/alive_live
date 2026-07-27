@@ -15,7 +15,8 @@ export const strings = {
     orContinue: 'or continue with',
     googleButton: 'Continue with Google',
     facebookButton: 'Continue with Facebook',
-    signUpPrompt: "Don't have an account? Sign Up",
+    signUpPrompt: "Don't have an account?",
+    signUpLink: 'Sign Up',
   },
   home: {
     searchPlaceholder: 'Search streamer...',

@@ -7,6 +7,8 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { logout } from '../../auth/store/authSlice';
 import LinearGradient from 'react-native-linear-gradient';
 import { LogOut, Settings, Shield, HelpCircle, ChevronRight, Award, Play } from 'lucide-react-native';
+import { colors } from '../../../core/theme/colors';
+import { strings } from '../../../core/theme/strings';
 
 const { width } = Dimensions.get('window');
 const GRID_ITEM_SIZE = (width - 48) / 3; // 3 items per row with padding
@@ -17,12 +19,12 @@ export const ProfileScreen = ({ navigation }: any) => {
 
   const handleLogout = async () => {
     Alert.alert(
-      'Log Out',
-      'Are you sure you want to log out of your account?',
+      strings.profile.logoutTitle,
+      strings.profile.logoutConfirm,
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: strings.profile.cancel, style: 'cancel' },
         {
-          text: 'Log Out',
+          text: strings.profile.logout,
           style: 'destructive',
           onPress: async () => {
             try {
@@ -49,7 +51,7 @@ export const ProfileScreen = ({ navigation }: any) => {
     <SafeAreaView style={styles.container} edges={['top']}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Profile</Text>
+        <Text style={styles.headerTitle}>{strings.profile.title}</Text>
       </View>
 
       <ScrollView
@@ -80,17 +82,17 @@ export const ProfileScreen = ({ navigation }: any) => {
             <View style={styles.statsContainer}>
               <View style={styles.statBox}>
                 <Text style={styles.statCount}>120</Text>
-                <Text style={styles.statLabel}>Followers</Text>
+                <Text style={styles.statLabel}>{strings.profile.followers}</Text>
               </View>
               <View style={styles.divider} />
               <View style={styles.statBox}>
                 <Text style={styles.statCount}>45</Text>
-                <Text style={styles.statLabel}>Following</Text>
+                <Text style={styles.statLabel}>{strings.profile.following}</Text>
               </View>
               <View style={styles.divider} />
               <View style={styles.statBox}>
-                <Text style={styles.statCount}>Level 3</Text>
-                <Text style={styles.statLabel}>Status</Text>
+                <Text style={styles.statCount}>{strings.profile.level}</Text>
+                <Text style={styles.statLabel}>{strings.profile.status}</Text>
               </View>
             </View>
           </LinearGradient>
@@ -103,27 +105,26 @@ export const ProfileScreen = ({ navigation }: any) => {
           <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
             <View style={styles.menuItemLeft}>
               <View style={styles.iconWrapper}><Settings size={20} color="#555" /></View>
-              <Text style={styles.menuItemLabel}>Account Settings</Text>
+              <Text style={styles.menuItemLabel}>{strings.profile.accountSettings}</Text>
             </View>
             <ChevronRight size={18} color="#bbb" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
             <View style={styles.menuItemLeft}>
               <View style={styles.iconWrapper}><Shield size={20} color="#555" /></View>
-              <Text style={styles.menuItemLabel}>Privacy & Security</Text>
+              <Text style={styles.menuItemLabel}>{strings.profile.privacySecurity}</Text>
             </View>
             <ChevronRight size={18} color="#bbb" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
             <View style={styles.menuItemLeft}>
               <View style={styles.iconWrapper}><HelpCircle size={20} color="#555" /></View>
-              <Text style={styles.menuItemLabel}>Help & Support</Text>
+              <Text style={styles.menuItemLabel}>{strings.profile.helpSupport}</Text>
             </View>
             <ChevronRight size={18} color="#bbb" />
           </TouchableOpacity>
         </View>
 
-        {/* Log Out Button */}
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout} activeOpacity={0.85}>
           <LinearGradient
             colors={['#ff5f6d', '#ffc371']}
@@ -131,8 +132,8 @@ export const ProfileScreen = ({ navigation }: any) => {
             end={{ x: 1, y: 0 }}
             style={styles.logoutGradient}
           >
-            <LogOut size={20} color="#fff" style={{ marginRight: 8 }} />
-            <Text style={styles.logoutText}>Log Out</Text>
+            <LogOut size={20} color={colors.white} style={{ marginRight: 8 }} />
+            <Text style={styles.logoutText}>{strings.profile.logout}</Text>
           </LinearGradient>
         </TouchableOpacity>
       </ScrollView>
@@ -143,18 +144,18 @@ export const ProfileScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background,
   },
   header: {
     paddingHorizontal: 20,
     paddingVertical: 14,
     borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
+    borderBottomColor: colors.grayBackground,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#1a1a1a',
+    color: colors.text,
   },
   scrollContent: {
     paddingBottom: 110, // Avoid bottom tab bar overlap
@@ -163,9 +164,9 @@ const styles = StyleSheet.create({
     margin: 20,
     borderRadius: 20,
     overflow: 'hidden',
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     elevation: 4,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.08,
     shadowRadius: 10,
@@ -184,30 +185,31 @@ const styles = StyleSheet.create({
     height: 90,
     borderRadius: 45,
     borderWidth: 3,
-    borderColor: '#7ed321',
+    borderColor: colors.primary,
+  },
   },
   badgeContainer: {
     position: 'absolute',
     bottom: 0,
     right: 0,
-    backgroundColor: '#7ed321',
+    backgroundColor: colors.primary,
     width: 26,
     height: 26,
     borderRadius: 13,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: colors.white,
   },
   userName: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#1a1a1a',
+    color: colors.text,
     marginBottom: 4,
   },
   userEmail: {
     fontSize: 13,
-    color: '#757575',
+    color: colors.textSecondary,
     marginBottom: 20,
   },
   statsContainer: {
@@ -225,17 +227,17 @@ const styles = StyleSheet.create({
   statCount: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#1a1a1a',
+    color: colors.text,
   },
   statLabel: {
     fontSize: 11,
-    color: '#757575',
+    color: colors.textSecondary,
     marginTop: 2,
   },
   divider: {
     width: 1,
     height: 30,
-    backgroundColor: '#e6e6e6',
+    backgroundColor: colors.border,
   },
   highlightsContainer: {
     paddingHorizontal: 20,
@@ -244,7 +246,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#1a1a1a',
+    color: colors.text,
     marginBottom: 12,
   },
   grid: {
@@ -257,7 +259,7 @@ const styles = StyleSheet.create({
     height: GRID_ITEM_SIZE * 1.3,
     borderRadius: 12,
     overflow: 'hidden',
-    backgroundColor: '#eee',
+    backgroundColor: colors.grayBorder,
   },
   gridGif: {
     width: '100%',
@@ -277,7 +279,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   gridViewsText: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 10,
     fontWeight: 'bold',
   },
@@ -291,7 +293,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f8f8f8',
+    borderBottomColor: colors.grayBorder,
   },
   menuItemLeft: {
     flexDirection: 'row',
@@ -301,7 +303,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 10,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.grayBackground,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 14,
@@ -309,7 +311,7 @@ const styles = StyleSheet.create({
   menuItemLabel: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
   },
   logoutButton: {
     marginHorizontal: 20,
@@ -323,7 +325,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logoutText: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 16,
     fontWeight: 'bold',
   },

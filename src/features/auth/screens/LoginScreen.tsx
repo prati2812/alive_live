@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, TextInput, Dimensions, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { colors } from '../../../core/theme/colors';
 import { typography } from '../../../core/theme/typography';
+import { strings } from '../../../core/theme/strings';
 import { useDispatch } from 'react-redux';
 import { setAuthenticated, setLoading } from '../store/authSlice';
 import LinearGradient from 'react-native-linear-gradient';
@@ -115,50 +116,50 @@ export const LoginScreen = ({ navigation }: any) => {
 
             {/* Welcome Text */}
             <View style={styles.welcomeContainer}>
-              <Text style={[typography.h2, styles.welcomeTitle]}>Welcome back! 👋</Text>
+              <Text style={[typography.h2, styles.welcomeTitle]}>{strings.login.welcome}</Text>
               <Text style={[typography.body, styles.welcomeSubtitle]}>
-                Sign in to continue your live streaming{'\n'}journey.
+                {strings.login.subtitle}
               </Text>
             </View>
 
             {/* Form Fields */}
             <View style={styles.formContainer}>
-              <Text style={styles.label}>Email ID or Phone Number</Text>
+              <Text style={styles.label}>{strings.login.emailLabel}</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Enter Registered Email or Phone No."
-                placeholderTextColor="#999"
+                placeholder={strings.login.emailPlaceholder}
+                placeholderTextColor={colors.grayPlaceholder}
                 value={email}
                 onChangeText={setEmail}
               />
 
-              <Text style={styles.label}>Password</Text>
+              <Text style={styles.label}>{strings.login.passwordLabel}</Text>
               <View style={styles.passwordContainer}>
                 <TextInput
                   style={styles.passwordInput}
-                  placeholder="Enter your password"
-                  placeholderTextColor="#999"
+                  placeholder={strings.login.passwordPlaceholder}
+                  placeholderTextColor={colors.grayPlaceholder}
                   secureTextEntry={!showPassword}
                   value={password}
                   onChangeText={setPassword}
                 />
                 <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
-                  {showPassword ? <Eye size={20} color="#999" /> : <EyeOff size={20} color="#999" />}
+                  {showPassword ? <Eye size={20} color={colors.grayPlaceholder} /> : <EyeOff size={20} color={colors.grayPlaceholder} />}
                 </TouchableOpacity>
               </View>
 
               <TouchableOpacity style={styles.forgotPassword}>
-                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+                <Text style={styles.forgotPasswordText}>{strings.login.forgotPassword}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => { }}>
                 <LinearGradient
-                  colors={['#C6FF00', '#00E676']}
+                  colors={[colors.gradientStart, colors.gradientEnd]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
                   style={styles.loginButton}
                 >
-                  <Text style={styles.loginButtonText}>Login</Text>
+                  <Text style={styles.loginButtonText}>{strings.login.loginButton}</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -167,7 +168,7 @@ export const LoginScreen = ({ navigation }: any) => {
           {/* Bottom Section with Gradient and Wave */}
           <View style={styles.bottomSectionWrapper}>
             <LinearGradient
-              colors={['#38E54D', '#1B5E20']}
+              colors={[colors.secondaryGradientStart, colors.secondaryGradientEnd]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.bottomGradient}
@@ -178,7 +179,7 @@ export const LoginScreen = ({ navigation }: any) => {
                 {/* Divider */}
                 <View style={styles.dividerContainer}>
                   <View style={styles.dividerLine} />
-                  <Text style={styles.dividerText}>or continue with</Text>
+                  <Text style={styles.dividerText}>{strings.login.orContinue}</Text>
                   <View style={styles.dividerLine} />
                 </View>
 
@@ -187,7 +188,7 @@ export const LoginScreen = ({ navigation }: any) => {
                   <View style={styles.socialIconWrapper}>
                     <Image source={require('../../../assets/images/google.png')} style={styles.socialIcon} />
                   </View>
-                  <Text style={styles.socialButtonText}>Continue with Google</Text>
+                  <Text style={styles.socialButtonText}>{strings.login.googleButton}</Text>
                 </TouchableOpacity>
 
                 {/* Facebook Login Button */}
@@ -195,14 +196,14 @@ export const LoginScreen = ({ navigation }: any) => {
                   <View style={styles.socialIconWrapper}>
                     <Image source={require('../../../assets/images/facebook.png')} style={styles.socialIcon} />
                   </View>
-                  <Text style={styles.socialButtonText}>Continue with Facebook</Text>
+                  <Text style={styles.socialButtonText}>{strings.login.facebookButton}</Text>
                 </TouchableOpacity>
 
                 {/* Sign Up Link */}
                 <View style={styles.signupContainer}>
-                  <Text style={styles.signupText}>Don't have an account? </Text>
+                  <Text style={styles.signupText}>{strings.login.signUpPrompt}</Text>
                   <TouchableOpacity>
-                    <Text style={styles.signupLink}>Sign Up</Text>
+                    <Text style={styles.signupLink}>{strings.login.signUpLink}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -218,7 +219,7 @@ export const LoginScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background,
   },
   keyboardView: {
     flex: 1,
@@ -230,7 +231,7 @@ const styles = StyleSheet.create({
   topContent: {
     paddingHorizontal: 24,
     paddingTop: 16,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background,
   },
   logoContainer: {
     marginTop: 16,
@@ -247,46 +248,48 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   welcomeTitle: {
-    color: '#000000',
+    color: colors.black,
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 4,
   },
   welcomeSubtitle: {
-    color: '#666666',
+    color: colors.textMuted,
     textAlign: 'center',
     lineHeight: 20,
+    marginTop: 8,
   },
   formContainer: {
-    marginBottom: 10,
+    marginTop: 24,
   },
   label: {
-    color: '#666666',
+    color: colors.textMuted,
     marginBottom: 8,
-    fontSize: 13,
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   input: {
-    backgroundColor: '#F5F5F5',
+    height: 48,
     borderRadius: 12,
+    backgroundColor: colors.grayBackground,
     paddingHorizontal: 16,
-    paddingVertical: 14,
     marginBottom: 16,
     fontSize: 14,
-    color: '#000000',
+    color: colors.black,
   },
   passwordContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    height: 48,
     borderRadius: 12,
-    marginBottom: 12,
+    backgroundColor: colors.grayBackground,
+    marginBottom: 16,
   },
   passwordInput: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingVertical: 14,
     fontSize: 14,
-    color: '#000000',
+    color: colors.black,
   },
   eyeIcon: {
     padding: 12,
@@ -296,7 +299,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   forgotPasswordText: {
-    color: '#388E3C',
+    color: colors.primary,
     fontSize: 14,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
@@ -307,7 +310,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loginButtonText: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -340,34 +343,37 @@ const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    backgroundColor: colors.whiteTransparent,
   },
   dividerText: {
-    color: '#FFFFFF',
+    color: colors.white,
     paddingHorizontal: 16,
     fontSize: 14,
   },
   socialButton: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.white,
     borderRadius: 24,
     paddingVertical: 14,
     marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
   },
   socialButtonText: {
-    color: '#000000',
-    fontSize: 16,
-    fontWeight: '600',
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colors.black,
+    marginRight: 40,
   },
   socialIconWrapper: {
-    marginRight: 12,
+    marginHorizontal: 12,
   },
   socialIcon: {
     width: 24,
@@ -381,13 +387,14 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   signupText: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 14,
   },
   signupLink: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 14,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
+    marginLeft: 4,
   },
 });
