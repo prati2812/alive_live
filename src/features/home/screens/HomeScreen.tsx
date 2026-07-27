@@ -14,8 +14,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Bell, ShoppingBag, Search, X, Heart, Eye, Flame, Play } from 'lucide-react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { LiveCard } from '../components/LiveCard';
-import { CountryTabs } from '../components/CountryTabs';
+import { LiveCard } from '../../../components/LiveCard';
+import { CountryTabs } from '../../../components/CountryTabs';
 import { colors } from '../../../core/theme/colors';
 import { strings } from '../../../core/theme/strings';
 import { MOCK_DATA, COUNTRY_TABS } from '../data/mockData';
