@@ -37,7 +37,7 @@ We use `react-native-dotenv` to manage credentials securely across platforms.
 
 1. Create a `.env` file in the root directory:
    ```env
-   GOOGLE_WEB_CLIENT_ID=358085105814-4633h8qpi76nhk8df8m8esp5jia2c7pb.apps.googleusercontent.com
+   GOOGLE_WEB_CLIENT_ID=web_client_id
    ```
 2. See `.env.example` for format references.
 3. Access variables in-code safely via TypeScript imports:
