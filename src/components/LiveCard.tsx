@@ -26,19 +26,16 @@ export const LiveCard = ({
   onPress,
 }: LiveCardProps) => {
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={onPress}
+      activeOpacity={0.95}
+    >
       <ImageBackground
         source={{ uri: imageUri }}
         style={styles.imageBackground}
         imageStyle={styles.image}
       >
-        {/* Background Click Overlay */}
-        <TouchableOpacity
-          style={StyleSheet.absoluteFillObject}
-          onPress={onPress}
-          activeOpacity={0.9}
-        />
-
         {/* Top: viewer count badge */}
         <View style={styles.topSection} pointerEvents="none">
           <View style={styles.viewerBadge}>
@@ -71,7 +68,7 @@ export const LiveCard = ({
           </TouchableOpacity>
         </View>
       </ImageBackground>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -104,12 +101,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   eyeIcon: {
-    marginRight: 3,
+    marginRight: 3.5,
   },
   viewerText: {
     color: colors.white,
     fontSize: 11,
     fontWeight: '600',
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
   bottomSection: {
     flexDirection: 'row',

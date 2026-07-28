@@ -14,6 +14,8 @@ import { ProfileScreen } from '../features/profile/screens/ProfileScreen';
 import { colors } from '../core/theme/colors';
 import { strings } from '../core/theme/strings';
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 const PlaceholderScreen = ({ name }: { name: string }) => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
     <Text style={{ fontSize: 18, color: colors.textSecondary }}>{name} Screen</Text>
@@ -68,49 +70,53 @@ const getTabIcon = (routeName: string, focused: boolean) => {
 };
 
 export const MainTabNavigator = () => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <CurvedBottomBar.Navigator
-      type="DOWN"
-      height={60}
-      circleWidth={50}
-      bgColor={colors.primary}
-      borderTopLeftRight={true}
-      initialRouteName="Home"
-      screenOptions={{ headerShown: false }}
-      shadowStyle={styles.shadow}
-      style={styles.barContainer}
-      renderCircle={({ navigate }) => (
-        <TouchableOpacity
-          style={styles.goLiveCircle}
-          onPress={() => navigate('GoLive')}
-          activeOpacity={0.85}
-        >
-          <RadioIcon />
-        </TouchableOpacity>
-      )}
-      tabBar={({ routeName, selectedTab, navigate }) => (
-        <TouchableOpacity
-          onPress={() => navigate(routeName)}
-          style={styles.tabItem}
-          activeOpacity={0.75}
-        >
-          {getTabIcon(routeName, selectedTab === routeName)}
-          <Text
-            style={[
-              styles.tabLabel,
-              selectedTab === routeName && styles.tabLabelActive,
-            ]}
+    <View style={{ flex: 1, backgroundColor: colors.primary, paddingBottom: insets.bottom }}>
+      <CurvedBottomBar.Navigator
+        type="DOWN"
+        height={60}
+        circleWidth={50}
+        bgColor={colors.primary}
+        borderTopLeftRight={true}
+        initialRouteName="Home"
+        screenOptions={{ headerShown: false }}
+        shadowStyle={styles.shadow}
+        style={styles.barContainer}
+        renderCircle={({ navigate }) => (
+          <TouchableOpacity
+            style={styles.goLiveCircle}
+            onPress={() => navigate('GoLive')}
+            activeOpacity={0.85}
           >
-            {routeName === 'GoLive' ? 'Go Live' : routeName}
-          </Text>
-        </TouchableOpacity>
-      )}
-    >
-      <CurvedBottomBar.Screen name="Home" position="LEFT" component={HomeScreen} />
-      <CurvedBottomBar.Screen name="Party" position="LEFT" component={() => <PlaceholderScreen name="Party" />} />
-      <CurvedBottomBar.Screen name="Chats" position="RIGHT" component={() => <PlaceholderScreen name="Chats" />} />
-      <CurvedBottomBar.Screen name="Profile" position="RIGHT" component={ProfileScreen} />
-    </CurvedBottomBar.Navigator>
+            <RadioIcon />
+          </TouchableOpacity>
+        )}
+        tabBar={({ routeName, selectedTab, navigate }) => (
+          <TouchableOpacity
+            onPress={() => navigate(routeName)}
+            style={styles.tabItem}
+            activeOpacity={0.75}
+          >
+            {getTabIcon(routeName, selectedTab === routeName)}
+            <Text
+              style={[
+                styles.tabLabel,
+                selectedTab === routeName && styles.tabLabelActive,
+              ]}
+            >
+              {routeName === 'GoLive' ? 'Go Live' : routeName}
+            </Text>
+          </TouchableOpacity>
+        )}
+      >
+        <CurvedBottomBar.Screen name="Home" position="LEFT" component={HomeScreen} />
+        <CurvedBottomBar.Screen name="Party" position="LEFT" component={() => <PlaceholderScreen name="Party" />} />
+        <CurvedBottomBar.Screen name="Chats" position="RIGHT" component={() => <PlaceholderScreen name="Chats" />} />
+        <CurvedBottomBar.Screen name="Profile" position="RIGHT" component={ProfileScreen} />
+      </CurvedBottomBar.Navigator>
+    </View>
   );
 };
 

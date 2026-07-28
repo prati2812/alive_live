@@ -213,18 +213,15 @@ export const HomeScreen = () => {
       {renderHeader()}
       {renderTabs()}
       
+      <CountryTabs
+        tabs={COUNTRY_TABS}
+        activeTab={activeCountry}
+        onTabChange={setActiveCountry}
+      />
+      
       {/* Scrollable list containing both the carousel and the grid */}
       <FlatList
-        ListHeaderComponent={
-          <>
-            {renderTrendingCarousel()}
-            <CountryTabs
-              tabs={COUNTRY_TABS}
-              activeTab={activeCountry}
-              onTabChange={setActiveCountry}
-            />
-          </>
-        }
+        ListHeaderComponent={renderTrendingCarousel()}
         data={filteredData}
         numColumns={2}
         keyExtractor={(item) => item.id}

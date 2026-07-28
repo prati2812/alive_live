@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, TextInput, Dimensions, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Dimensions, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { colors } from '../../../core/theme/colors';
 import { typography } from '../../../core/theme/typography';
 import { strings } from '../../../core/theme/strings';
@@ -11,6 +11,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { getAuth, signInWithCredential, GoogleAuthProvider } from '@react-native-firebase/auth';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { GOOGLE_WEB_CLIENT_ID } from '@env';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 
@@ -25,6 +26,7 @@ const TopWaveMask = () => (
 
 export const LoginScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
+  const insets = useSafeAreaInsets();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -93,7 +95,7 @@ export const LoginScreen = ({ navigation }: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <KeyboardAvoidingView
         style={styles.keyboardView}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -170,7 +172,7 @@ export const LoginScreen = ({ navigation }: any) => {
             >
               <TopWaveMask />
 
-              <View style={styles.bottomContent}>
+              <View style={[styles.bottomContent, { paddingBottom: Math.max(20, insets.bottom + 12) }]}>
                 {/* Divider */}
                 <View style={styles.dividerContainer}>
                   <View style={styles.dividerLine} />
@@ -207,7 +209,7 @@ export const LoginScreen = ({ navigation }: any) => {
 
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 };
 
