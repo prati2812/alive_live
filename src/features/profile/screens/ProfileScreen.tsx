@@ -30,14 +30,14 @@ export const ProfileScreen = ({ navigation }: any) => {
             try {
               const auth = getAuth();
               await auth.signOut();
-              await GoogleSignin.signOut().catch(() => {});
+              await GoogleSignin.signOut().catch(() => { });
               dispatch(logout());
               navigation.reset({
                 index: 0,
                 routes: [{ name: 'Login' }],
               });
             } catch (error) {
-              // Logout error handled gracefully
+              console.error('Logout error:', error);
             }
           },
         },
