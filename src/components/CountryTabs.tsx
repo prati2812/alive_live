@@ -35,7 +35,7 @@ export const CountryTabs = ({ tabs, activeTab, onTabChange }: CountryTabsProps) 
             return (
               <TouchableOpacity key={tab.id} onPress={() => onTabChange(tab.id)} activeOpacity={0.85}>
                 <LinearGradient
-                  colors={['#e8ffc8', '#c6f78a']}
+                  colors={[colors.tabGradientStart, colors.tabGradientEnd]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   style={[styles.tabButton, styles.tabButtonActive]}

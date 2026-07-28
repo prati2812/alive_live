@@ -61,7 +61,7 @@ export const ProfileScreen = ({ navigation }: any) => {
         {/* User Info Card */}
         <View style={styles.profileCard}>
           <LinearGradient
-            colors={['#e8ffc8', 'rgba(255,255,255,1)']}
+            colors={[colors.tabGradientStart, colors.white]}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
             style={styles.cardGradient}
@@ -72,7 +72,7 @@ export const ProfileScreen = ({ navigation }: any) => {
                 style={styles.avatar}
               />
               <View style={styles.badgeContainer}>
-                <Award size={14} color="#fff" />
+                <Award size={14} color={colors.white} />
               </View>
             </View>
             <Text style={styles.userName}>{user?.name || 'ALive User'}</Text>
@@ -104,30 +104,30 @@ export const ProfileScreen = ({ navigation }: any) => {
         <View style={styles.menuContainer}>
           <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
             <View style={styles.menuItemLeft}>
-              <View style={styles.iconWrapper}><Settings size={20} color="#555" /></View>
+              <View style={styles.iconWrapper}><Settings size={20} color={colors.iconGray} /></View>
               <Text style={styles.menuItemLabel}>{strings.profile.accountSettings}</Text>
             </View>
-            <ChevronRight size={18} color="#bbb" />
+            <ChevronRight size={18} color={colors.iconLightGray} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
             <View style={styles.menuItemLeft}>
-              <View style={styles.iconWrapper}><Shield size={20} color="#555" /></View>
+              <View style={styles.iconWrapper}><Shield size={20} color={colors.iconGray} /></View>
               <Text style={styles.menuItemLabel}>{strings.profile.privacySecurity}</Text>
             </View>
-            <ChevronRight size={18} color="#bbb" />
+            <ChevronRight size={18} color={colors.iconLightGray} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
             <View style={styles.menuItemLeft}>
-              <View style={styles.iconWrapper}><HelpCircle size={20} color="#555" /></View>
+              <View style={styles.iconWrapper}><HelpCircle size={20} color={colors.iconGray} /></View>
               <Text style={styles.menuItemLabel}>{strings.profile.helpSupport}</Text>
             </View>
-            <ChevronRight size={18} color="#bbb" />
+            <ChevronRight size={18} color={colors.iconLightGray} />
           </TouchableOpacity>
         </View>
 
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout} activeOpacity={0.85}>
           <LinearGradient
-            colors={['#ff5f6d', '#ffc371']}
+            colors={[colors.logoutGradientStart, colors.logoutGradientEnd]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.logoutGradient}

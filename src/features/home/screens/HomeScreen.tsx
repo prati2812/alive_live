@@ -90,7 +90,7 @@ export const HomeScreen = () => {
             style={styles.searchInput}
           />
           <TouchableOpacity onPress={() => { setIsSearching(false); setSearchQuery(''); }}>
-            <X size={20} color="#555" />
+            <X size={20} color={colors.iconGray} />
           </TouchableOpacity>
         </View>
       ) : (
@@ -106,12 +106,12 @@ export const HomeScreen = () => {
           <View style={styles.headerRight}>
             {/* Search icon */}
             <TouchableOpacity style={styles.iconCircle} onPress={() => setIsSearching(true)}>
-              <Search size={20} color="#555" />
+              <Search size={20} color={colors.iconGray} />
             </TouchableOpacity>
 
             {/* Bell + badge */}
             <TouchableOpacity style={styles.iconCircle}>
-              <Bell size={20} color="#555" />
+              <Bell size={20} color={colors.iconGray} />
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>3</Text>
               </View>
@@ -120,12 +120,12 @@ export const HomeScreen = () => {
             {/* Bag icon in green gradient circle */}
             <TouchableOpacity>
               <LinearGradient
-                colors={['#c6f000', '#2db832']}
+                colors={[colors.gradientStart, colors.gradientEnd]}
                 start={{ x: 0.2, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.greenCircle}
               >
-                <ShoppingBag size={20} color="#fff" />
+                <ShoppingBag size={20} color={colors.white} />
               </LinearGradient>
             </TouchableOpacity>
           </View>
@@ -158,7 +158,7 @@ export const HomeScreen = () => {
     return (
       <View style={styles.carouselContainer}>
         <View style={styles.carouselHeader}>
-          <Flame size={18} color="#FF5722" fill="#FF5722" style={{ marginRight: 6 }} />
+          <Flame size={18} color={colors.orangeAccent} fill={colors.orangeAccent} style={{ marginRight: 6 }} />
           <Text style={styles.carouselTitle}>{strings.home.carouselTitle}</Text>
         </View>
         <ScrollView
@@ -265,7 +265,7 @@ export const HomeScreen = () => {
                   style={styles.modalCloseButton}
                   onPress={() => setSelectedCreator(null)}
                 >
-                  <X size={24} color="#fff" />
+                  <X size={24} color={colors.white} />
                 </TouchableOpacity>
                 <View style={styles.modalLiveBadge}>
                   <View style={styles.modalLiveDot} />
@@ -287,7 +287,7 @@ export const HomeScreen = () => {
                         {selectedCreator.name} {selectedCreator.flag}
                       </Text>
                       <View style={styles.modalViewersRow}>
-                        <Eye size={14} color="#aaa" style={{ marginRight: 4 }} />
+                        <Eye size={14} color={colors.grayMedium} style={{ marginRight: 4 }} />
                         <Text style={styles.modalViewersText}>
                           {selectedCreator.viewers} {strings.modal.watching}
                         </Text>
@@ -298,12 +298,12 @@ export const HomeScreen = () => {
                   {/* Hotness Meter shown on Detail Modals to show extra premium styling */}
                   <View style={styles.hotMeterContainer}>
                     <View style={styles.hotMeterRow}>
-                      <Flame size={16} color="#FF9800" fill="#FF9800" style={{ marginRight: 4 }} />
+                      <Flame size={16} color={colors.hotGradientStart} fill={colors.hotGradientStart} style={{ marginRight: 4 }} />
                       <Text style={styles.hotMeterTitle}>{strings.modal.trendingMeter}</Text>
                     </View>
                     <View style={styles.hotProgressBg}>
                       <LinearGradient
-                        colors={['#FF9800', '#F44336']}
+                        colors={[colors.hotGradientStart, colors.hotGradientEnd]}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
                         style={[styles.hotProgressFill, { width: `${Math.min(100, Math.floor(parseViewersVal(selectedCreator.viewers) / 120))}%` }]}
@@ -325,8 +325,8 @@ export const HomeScreen = () => {
                   >
                     <Heart
                       size={20}
-                      color={followedIds.includes(selectedCreator.id) ? '#fff' : '#000'}
-                      fill={followedIds.includes(selectedCreator.id) ? '#fff' : 'none'}
+                      color={followedIds.includes(selectedCreator.id) ? colors.white : colors.black}
+                      fill={followedIds.includes(selectedCreator.id) ? colors.white : 'none'}
                       style={{ marginRight: 8 }}
                     />
                     <Text
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
   headerLogo: {
     width: 72,
     height: 40,
-    shadowColor: '#4caf50',
+    shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.4,
     shadowRadius: 8,
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
   badgeText: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 9,
     fontWeight: 'bold',
   },
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 14,
-    color: '#333',
+    color: colors.grayDark,
     paddingVertical: 0,
   },
   /* ── Stream / Hot / Follow tabs ── */
@@ -438,7 +438,7 @@ const styles = StyleSheet.create({
   mainTabText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#aaa',
+    color: colors.grayMedium,
   },
   mainTabTextActive: {
     color: colors.primary,
@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
   carouselTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#333',
+    color: colors.grayDark,
   },
   carouselScroll: {
     paddingHorizontal: 14,
@@ -476,9 +476,9 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 16,
     overflow: 'hidden',
-    backgroundColor: '#333',
+    backgroundColor: colors.grayDark,
     elevation: 4,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -497,13 +497,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rankBadge: {
-    backgroundColor: '#FF5722',
+    backgroundColor: colors.orangeAccent,
     borderRadius: 8,
     paddingHorizontal: 6,
     paddingVertical: 2,
   },
   rankText: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 10,
     fontWeight: 'bold',
   },
@@ -516,7 +516,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   carouselLiveText: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 9,
     fontWeight: 'bold',
   },
@@ -530,15 +530,15 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginRight: 6,
     borderWidth: 1,
-    borderColor: '#FF5722',
+    borderColor: colors.orangeAccent,
   },
   carouselName: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 11,
     fontWeight: 'bold',
   },
   carouselStatus: {
-    color: '#FFcc80',
+    color: colors.orangeLight,
     fontSize: 9,
     fontWeight: '600',
   },
@@ -553,7 +553,7 @@ const styles = StyleSheet.create({
   /* ── Modal Layout ── */
   modalContainer: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: colors.black,
   },
   modalBgImage: {
     flex: 1,
@@ -577,7 +577,7 @@ const styles = StyleSheet.create({
   modalLiveBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ff3b30',
+    backgroundColor: colors.error,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
@@ -586,11 +586,11 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     marginRight: 6,
   },
   modalLiveText: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -611,14 +611,14 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: '#FFE600',
+    borderColor: colors.accent,
     marginRight: 12,
   },
   modalCreatorInfo: {
     flex: 1,
   },
   modalCreatorName: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -628,7 +628,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   modalViewersText: {
-    color: '#ccc',
+    color: colors.grayLight,
     fontSize: 12,
   },
   hotMeterContainer: {
@@ -643,7 +643,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   hotMeterTitle: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 12,
     fontWeight: '600',
   },
@@ -658,13 +658,13 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   modalBio: {
-    color: '#eee',
+    color: colors.grayLighter,
     fontSize: 14,
     lineHeight: 20,
   },
   modalFollowButton: {
     flexDirection: 'row',
-    backgroundColor: '#FFE600',
+    backgroundColor: colors.accent,
     borderRadius: 24,
     height: 48,
     alignItems: 'center',
@@ -677,11 +677,11 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.4)',
   },
   modalFollowButtonText: {
-    color: '#000',
+    color: colors.black,
     fontSize: 16,
     fontWeight: 'bold',
   },
   modalFollowingButtonText: {
-    color: '#fff',
+    color: colors.white,
   },
 });
