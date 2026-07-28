@@ -187,7 +187,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: colors.primary,
   },
-  },
   badgeContainer: {
     position: 'absolute',
     bottom: 0,
