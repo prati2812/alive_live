@@ -1,31 +1,41 @@
 # ALive - React Native Mobile Application
 
-ALive is a React Native mobile application designed with a Clean Architecture, following feature-based MVVM structure, integrated with Firebase Authentication, Redux Toolkit, and standard environment variables.
+ALive is a premium React Native mobile application built following Clean Architecture, a feature-based MVVM folder structure, Redux Toolkit, Firebase Authentication (Google Sign-In), and Axios for API networking.
 
 ---
 
 ## 📁 Project Structure
 
-The project code is organized under `src/` following a clean, scalable folder structure:
+The project codebase is organized under `src/` following a clean, scalable folder structure:
 
 ```
 src/
 ├── assets/                # App icons, splash/screen assets, and images
 │   └── images/            # Brand logos (logo_1.png)
-├── components/            # Global reusable components
+├── components/            # Global reusable UI components
+│   ├── CountryTabs.tsx    # Country navigation selector with linear gradients
+│   └── LiveCard.tsx       # Live streamer feed card with overlays & stats
 ├── core/                  # Core modules, configs, and global utilities
-│   ├── store/             # Redux Store configuration (store.ts, rootReducer.ts)
-│   └── theme/             # Design Tokens (colors.ts, typography.ts)
+│   ├── network/           # API clients & network utilities
+│   │   └── apiClient.ts   # Axios wrapper configured with interceptors for REST APIs
+│   ├── store/             # Redux Store configuration (index.ts)
+│   └── theme/             # Design Tokens & Stylesheets
+│       ├── colors.ts      # Main palette (ALive Green, secondary gradients, badges)
+│       └── strings.ts     # Localized UI string constants
 ├── features/              # Feature-based MVVM structure
 │   ├── auth/              # Authentication Feature
-│   │   ├── screens/       # LoginScreen.tsx
-│   │   └── store/         # Auth slice, state management (authSlice.ts)
-│   ├── home/              # Feed and Tab Screen Feature
-│   │   ├── components/    # CountryTabs.tsx, LiveCard.tsx
-│   │   └── screens/       # HomeScreen.tsx
+│   │   ├── screens/       # LoginScreen.tsx (Google Auth only)
+│   │   └── store/         # Auth slice & action creators (authSlice.ts)
+│   ├── home/              # Live Stream Feed Feature
+│   │   ├── data/          # Mock streamer feed datasets
+│   │   └── screens/       # HomeScreen.tsx (Feed, Creator details modal, Search)
+│   ├── profile/           # User Profile & Account Settings Feature
+│   │   └── screens/       # ProfileScreen.tsx (Stats, Menu, Logout)
 │   └── splash/            # Boot and Session initialization screen
-│       └── screens/       # SplashScreen.tsx
+│       └── screens/       # SplashScreen.tsx (Scale & opacity animation)
 ├── navigation/            # Navigation routing (AppNavigator, MainTabNavigator)
+│   ├── AppNavigator.tsx   # Root stack navigator
+│   └── MainTabNavigator.tsx # Custom Curved Notch Bottom Tab Bar configuration
 └── types/                 # Global TypeScript definitions (env.d.ts)
 ```
 
@@ -50,19 +60,22 @@ We use `react-native-dotenv` to manage credentials securely across platforms.
 ## 🚀 Key Features Implemented
 
 1. **Persistent Session Handling**:
-   - `SplashScreen` uses Firebase `onAuthStateChanged` to check for active sessions and direct the user straight to `Main` if logged in, bypassing `Login`.
+   - `SplashScreen` uses Firebase `onAuthStateChanged` to check for active sessions and direct the user straight to the `Main` screen if logged in, bypassing `Login`.
 
 2. **Firebase Google Sign-In**:
-   - Integrated with standard Firebase Auth credentials using `getAuth` and `signInWithCredential` (Modular API).
-   - Solved the native React Native Firebase v25 Android empty `accessToken` bug by retrieving and passing the accessToken manually.
+   - Integrated with standard Firebase Auth credentials using `getAuth` and `signInWithCredential`.
+   - Solved the native React Native Firebase v25 Android empty `accessToken` bug by retrieving and passing the `accessToken` manually from `GoogleSignin.getTokens()`.
 
 3. **Curved Notch Bottom Tab Bar**:
-   - Svg-designed bottom tab bar using `react-native-svg`.
-   - Shallower curve, snug notch fit for the floating white circle "Go Live" action button, and custom linear gradient theme color.
+   - Svg-designed bottom tab bar using `react-native-svg` and `react-native-curved-bottom-bar`.
+   - Snug notch fit for the floating white circle "Go Live" action button, and custom gradient theme coloring.
 
 4. **Stream Grid & Country Filtering**:
-   - 20 unique streamer profiles mapped dynamically under 12 different countries.
+   - Streamer profiles mapped dynamically under different countries.
    - Dynamic tab selector with light green gradient headers filtering feed content. "Global" tab resets filters to show all profiles.
+
+5. **Theme Consistency & Code Quality**:
+   - Fully eliminated inline hardcoded hex values in screens by centralizing them into [colors.ts](file:///Users/apple/workspace/alive_live/alive_live/src/core/theme/colors.ts).
 
 ---
 
