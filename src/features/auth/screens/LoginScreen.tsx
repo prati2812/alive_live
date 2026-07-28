@@ -69,11 +69,6 @@ export const LoginScreen = ({ navigation }: any) => {
       // 1. Capture the raw payload response from the physical device
       const response = await GoogleSignin.signIn();
 
-      // 2. CRITICAL DEBUGGER: Print this out to your terminal console
-      console.log('--- RAW PAYLOAD RECEIVED FROM DEVICE ---');
-      console.log(JSON.stringify(response, null, 2));
-      console.log('----------------------------------------');
-
       // 3. Fallback extraction method checking all possible SDK versions
       const idToken = response?.data?.idToken;
 

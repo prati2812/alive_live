@@ -37,7 +37,7 @@ export const ProfileScreen = ({ navigation }: any) => {
                 routes: [{ name: 'Login' }],
               });
             } catch (error) {
-              console.error('Logout error:', error);
+              // Logout error handled gracefully
             }
           },
         },
